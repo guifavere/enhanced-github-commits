@@ -5,6 +5,7 @@ export interface CommitsManager {
 
 interface CommitLink extends HTMLLinkElement {
   ariaLabel: string;
+  textContent: string;
 }
 
 type Sort = 'ASC' | 'DESC';
@@ -129,13 +130,14 @@ export default class HTMLCommitsManager implements CommitsManager {
   }
 
   public async copyCommits(): Promise<void> {
-    let clipboardContent = '';
+    const commitMessages = Array.from(this.commitLinks).map(
+      (commitLink) => commitLink.textContent,
+    );
 
-    this.commitLinks.forEach((commitLink) => {
-      const message = `${commitLink.textContent}\n`;
-
-      clipboardContent += message;
-    });
+    const clipboardContent =
+      this.sort === 'DESC'
+        ? commitMessages.join('\n')
+        : commitMessages.reverse().join('\n');
 
     await navigator.clipboard.writeText(clipboardContent);
   }
