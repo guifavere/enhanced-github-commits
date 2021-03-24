@@ -51,6 +51,7 @@ export default class HTMLCommitsManager implements CommitsManager {
       align-items: center;
       background: #161b22;
       border: 0;
+      border-radius: 6px;
       display: flex;
       height: 32px;
       justify-content: center;
@@ -75,13 +76,14 @@ export default class HTMLCommitsManager implements CommitsManager {
       align-items: center;
       background: #161b22;
       border: 0;
+      border-radius: 6px;
       display: flex;
       height: 32px;
       justify-content: center;
       width: 32px;
     `;
 
-    const iconSource = chrome.extension.getURL('assets/MdContentCopy.svg');
+    const iconSource = chrome.extension.getURL('assets/MdSortByAlpha.svg');
 
     button.setAttribute('type', 'button');
     button.setAttribute('title', 'sort commits');
@@ -99,7 +101,7 @@ export default class HTMLCommitsManager implements CommitsManager {
       display: flex;
       gap: 15px;
       justify-content: flex-end;
-      margin-bottom: 15px;
+      margin: 30px 0 15px;
       padding-bottom: 15px;
     `;
 
