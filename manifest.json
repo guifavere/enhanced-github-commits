@@ -6,5 +6,8 @@
   "content_scripts": [{
     "js": ["index.js"],
     "matches": ["https://github.com/*"]
-  }]
+  }],
+  "web_accessible_resources": [
+    "assets/*.svg"
+  ]
 }

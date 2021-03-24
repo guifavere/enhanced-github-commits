@@ -40,10 +40,25 @@ export default class HTMLCommitsManager implements CommitsManager {
 
   private makeCopyButton(): HTMLButtonElement {
     const button = document.createElement('button');
+    const buttonStyle = `
+      align-items: center;
+      background: #161b22;
+      border: 0;
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      margin: 0 0 0 auto;
+      width: 32px;
+    `;
+
+    const iconSource = chrome.extension.getURL('assets/MdContentCopy.svg');
 
     button.setAttribute('type', 'button');
-    button.textContent = 'copy';
+    button.setAttribute('title', 'copy commits to clipboard');
     button.onclick = this.copyCommits.bind(this);
+
+    button.style.cssText = buttonStyle;
+    button.innerHTML = `<img src=${iconSource} />`;
 
     return button;
   }
