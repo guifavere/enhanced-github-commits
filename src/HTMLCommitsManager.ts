@@ -1,7 +1,4 @@
-export interface CommitsManager {
-  copyCommits(): Promise<void>;
-  sortCommits(): void;
-}
+import { CommitsManager } from './CommitsManager';
 
 interface CommitLink extends HTMLLinkElement {
   ariaLabel: string;
@@ -10,7 +7,7 @@ interface CommitLink extends HTMLLinkElement {
 
 type Sort = 'ASC' | 'DESC';
 
-export default class HTMLCommitsManager implements CommitsManager {
+export class HTMLCommitsManager implements CommitsManager {
   private block: HTMLElement;
 
   private commitsList: HTMLOListElement;

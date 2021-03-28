@@ -1,4 +1,4 @@
-import { CommitsManager } from './HTMLCommitsManager';
+import { CommitsManager } from './CommitsManager';
 
 export default class Application {
   public commitsManagers: CommitsManager[];
