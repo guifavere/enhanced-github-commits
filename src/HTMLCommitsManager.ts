@@ -1,34 +1,41 @@
+import { HTMLCommitLink } from './HTMLCommitLink';
 import { CommitsManager } from './CommitsManager';
-
-interface CommitLink extends HTMLLinkElement {
-  ariaLabel: string;
-  textContent: string;
-}
 
 type Sort = 'ASC' | 'DESC';
 
 export class HTMLCommitsManager implements CommitsManager {
-  private block: HTMLElement;
+  private block: Element;
 
   private commitsList: HTMLOListElement;
 
-  private commitLinks: NodeListOf<CommitLink>;
+  private commitLinks: NodeListOf<HTMLCommitLink>;
 
   private sort: Sort = 'DESC';
 
-  constructor(block: HTMLElement) {
+  constructor(block: Element) {
     this.block = block;
-    this.commitsList = this.getCommitsList(block);
-    this.commitLinks = this.getCommitLinks(block);
+    this.commitsList = this.findCommitsList(block);
+    this.commitLinks = this.findCommitLinks(block);
 
     this.init();
   }
 
-  private getCommitsList(block: HTMLElement): HTMLOListElement {
+  private configList(): void {
+    this.commitsList.style.display = 'flex';
+    this.commitsList.style.flexDirection = 'column';
+  }
+
+  private configToolbar(): void {
+    const toolbar = this.makeToolbar();
+
+    this.commitsList.insertAdjacentHTML('beforebegin', toolbar.outerHTML);
+  }
+
+  private findCommitsList(block: Element): HTMLOListElement {
     return block.querySelector('.TimelineItem-body > ol') as HTMLOListElement;
   }
 
-  private getCommitLinks(block: HTMLElement): NodeListOf<CommitLink> {
+  private findCommitLinks(block: Element): NodeListOf<HTMLCommitLink> {
     return block.querySelectorAll('li > div > p > a');
   }
 
@@ -92,14 +99,11 @@ export class HTMLCommitsManager implements CommitsManager {
     return button;
   }
 
-  private makeToolbar(): HTMLElement {
+  private makeToolbar(): Element {
     const toolbarStyle = `
-      border-bottom: 1px solid #161b22;
       display: flex;
       gap: 15px;
       justify-content: flex-end;
-      margin: 30px 0 15px;
-      padding-bottom: 15px;
     `;
 
     const copyButton = this.makeCopyButton();
@@ -113,19 +117,24 @@ export class HTMLCommitsManager implements CommitsManager {
     return toolbar;
   }
 
-  private setFullMessage(commitLink: CommitLink): void {
-    const fullMessage = commitLink.ariaLabel;
+  private updateCommitMessages(): void {
+    function updateMessage(commitLink: HTMLCommitLink): void {
+      const fullMessage = commitLink.ariaLabel;
 
-    commitLink.textContent = fullMessage;
+      commitLink.innerText = fullMessage;
+    }
+
+    this.commitLinks.forEach(updateMessage);
   }
 
   private init(): void {
-    this.block.insertAdjacentElement('beforebegin', this.makeToolbar());
+    this.configToolbar();
+    this.configList();
+    this.updateCommitMessages();
+  }
 
-    this.commitsList.style.display = 'flex';
-    this.commitsList.style.flexDirection = 'column';
-
-    this.commitLinks.forEach((commitLink) => this.setFullMessage(commitLink));
+  public getBlock(): Element {
+    return this.block;
   }
 
   public async copyCommits(): Promise<void> {
