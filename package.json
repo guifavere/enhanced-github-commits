@@ -6,10 +6,8 @@
   "author": "guifavere <guilherme.favere@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf ./build && parcel build src/index.ts -d build && npm run copy:static",
-    "copy:static": "copyfiles assets/**/* manifest.json build",
-    "start:dev": "nodemon",
-    "start": "npm run build && node build/index.js",
+    "build": "rimraf ./build && parcel build src/index.ts -d build && copyfiles assets/**/* manifest.json build",
+    "dev": "parcel watch src/index.ts --out-dir build",
     "test": "jest -c jest.config.ts",
     "test:watch": "jest -c jest.config.ts --watch"
   },
@@ -25,7 +23,6 @@
     "eslint-plugin-prettier": "^3.3.1",
     "jest": "^26.6.3",
     "jest-chrome": "^0.7.0",
-    "nodemon": "^2.0.7",
     "parcel-bundler": "^1.12.5",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
