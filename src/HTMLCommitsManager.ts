@@ -4,7 +4,7 @@ import { CommitsManager } from './CommitsManager';
 type Sort = 'ASC' | 'DESC';
 
 export class HTMLCommitsManager implements CommitsManager {
-  private block: Element;
+  private block: HTMLElement;
 
   private commitsList: HTMLOListElement;
 
@@ -12,7 +12,7 @@ export class HTMLCommitsManager implements CommitsManager {
 
   private sort: Sort = 'DESC';
 
-  constructor(block: Element) {
+  constructor(block: HTMLElement) {
     this.block = block;
     this.commitsList = this.findCommitsList(block);
     this.commitLinks = this.findCommitLinks(block);
@@ -25,17 +25,27 @@ export class HTMLCommitsManager implements CommitsManager {
     this.commitsList.style.flexDirection = 'column';
   }
 
-  private configToolbar(): void {
+  private appendToolbar(): void {
     const toolbar = this.makeToolbar();
 
     this.commitsList.insertAdjacentHTML('beforebegin', toolbar.outerHTML);
+
+    const copyButton = this.block.querySelector(
+      '#enhanced-github-commits__button-copy',
+    );
+    const sortButton = this.block.querySelector(
+      '#enhanced-github-commits__button-sort',
+    );
+
+    copyButton?.addEventListener('click', this.copyCommits.bind(this));
+    sortButton?.addEventListener('click', this.sortCommits.bind(this));
   }
 
-  private findCommitsList(block: Element): HTMLOListElement {
+  private findCommitsList(block: HTMLElement): HTMLOListElement {
     return block.querySelector('.TimelineItem-body > ol') as HTMLOListElement;
   }
 
-  private findCommitLinks(block: Element): NodeListOf<HTMLCommitLink> {
+  private findCommitLinks(block: HTMLElement): NodeListOf<HTMLCommitLink> {
     return block.querySelectorAll('li > div > p > a');
   }
 
@@ -51,7 +61,7 @@ export class HTMLCommitsManager implements CommitsManager {
 
   private makeCopyButton(): HTMLButtonElement {
     const button = document.createElement('button');
-    const buttonStyle = `
+    const style = `
       align-items: center;
       background: #161b22;
       border: 0;
@@ -64,11 +74,11 @@ export class HTMLCommitsManager implements CommitsManager {
 
     const iconSource = chrome.extension.getURL('assets/MdContentCopy.svg');
 
+    button.setAttribute('id', 'enhanced-github-commits__button-copy');
     button.setAttribute('type', 'button');
     button.setAttribute('title', 'copy commits to clipboard');
-    button.onclick = this.copyCommits.bind(this);
 
-    button.style.cssText = buttonStyle;
+    button.style.cssText = style;
     button.innerHTML = `<img src=${iconSource} />`;
 
     return button;
@@ -76,7 +86,7 @@ export class HTMLCommitsManager implements CommitsManager {
 
   private makeSortButton(): HTMLButtonElement {
     const button = document.createElement('button');
-    const buttonStyle = `
+    const style = `
       align-items: center;
       background: #161b22;
       border: 0;
@@ -89,18 +99,18 @@ export class HTMLCommitsManager implements CommitsManager {
 
     const iconSource = chrome.extension.getURL('assets/MdSortByAlpha.svg');
 
+    button.setAttribute('id', 'enhanced-github-commits__button-sort');
     button.setAttribute('type', 'button');
     button.setAttribute('title', 'sort commits');
-    button.onclick = this.sortCommits.bind(this);
 
-    button.style.cssText = buttonStyle;
+    button.style.cssText = style;
     button.innerHTML = `<img src=${iconSource} />`;
 
     return button;
   }
 
-  private makeToolbar(): Element {
-    const toolbarStyle = `
+  private makeToolbar(): HTMLElement {
+    const style = `
       display: flex;
       gap: 15px;
       justify-content: flex-end;
@@ -111,7 +121,7 @@ export class HTMLCommitsManager implements CommitsManager {
 
     const toolbar = document.createElement('section');
 
-    toolbar.style.cssText = toolbarStyle;
+    toolbar.style.cssText = style;
     toolbar.append(sortButton, copyButton);
 
     return toolbar;
@@ -128,12 +138,12 @@ export class HTMLCommitsManager implements CommitsManager {
   }
 
   private init(): void {
-    this.configToolbar();
+    this.appendToolbar();
     this.configList();
     this.updateCommitMessages();
   }
 
-  public getBlock(): Element {
+  public getBlock(): HTMLElement {
     return this.block;
   }
 

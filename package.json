@@ -6,7 +6,7 @@
   "author": "guifavere <guilherme.favere@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf ./build && parcel build src/index.ts -d build && copyfiles assets/**/* manifest.json build",
+    "build": "rimraf ./build && parcel build src/index.ts -d build --no-source-maps && copyfiles assets/**/* manifest.json build",
     "dev": "parcel watch src/index.ts --out-dir build",
     "test": "jest -c jest.config.ts",
     "test:watch": "jest -c jest.config.ts --watch"
