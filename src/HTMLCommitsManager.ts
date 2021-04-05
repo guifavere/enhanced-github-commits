@@ -63,7 +63,7 @@ export class HTMLCommitsManager implements CommitsManager {
     const button = document.createElement('button');
     const style = `
       align-items: center;
-      background: #161b22;
+      background: #b9b9b9;
       border: 0;
       border-radius: 6px;
       display: flex;
@@ -88,7 +88,7 @@ export class HTMLCommitsManager implements CommitsManager {
     const button = document.createElement('button');
     const style = `
       align-items: center;
-      background: #161b22;
+      background: #b9b9b9;
       border: 0;
       border-radius: 6px;
       display: flex;
