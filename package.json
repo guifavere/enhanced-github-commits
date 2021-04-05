@@ -1,0 +1,33 @@
+{
+  "name": "enhanced-github-commits",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:guifavere/enhanced-github-commits.git",
+  "author": "guifavere <guilherme.favere@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "rimraf ./build && parcel build src/index.ts -d build --no-source-maps && copyfiles assets/**/* manifest.json build",
+    "dev": "parcel watch src/index.ts --out-dir build",
+    "test": "jest -c jest.config.ts",
+    "test:watch": "jest -c jest.config.ts --watch"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.133",
+    "@types/jest": "^26.0.22",
+    "@types/jsdom": "^16.2.9",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "copyfiles": "^2.4.1",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
+    "jest-chrome": "^0.7.0",
+    "parcel-bundler": "^1.12.5",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  }
+}
