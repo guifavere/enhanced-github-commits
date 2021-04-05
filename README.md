@@ -2,7 +2,7 @@
 Add new functionalities at github commits page
 
 <div align="center">
-	<img alt="Enhanced Github Commits working" src="https://i.imgur.com/EBzfcbp.gifv" title="Enhanced Github Commits working" width="650" />
+	<img alt="Enhanced Github Commits working" src="https://i.imgur.com/EBzfcbp.gif" title="Enhanced Github Commits working" width="650" />
 </div>
 
 Chrome extension that helps you with your history of commits.
