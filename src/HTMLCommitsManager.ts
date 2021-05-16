@@ -1,4 +1,3 @@
-import { HTMLCommitLink } from './HTMLCommitLink';
 import { CommitsManager } from './CommitsManager';
 
 type Sort = 'ASC' | 'DESC';
@@ -8,7 +7,7 @@ export class HTMLCommitsManager implements CommitsManager {
 
   private commitsList: HTMLOListElement;
 
-  private commitLinks: NodeListOf<HTMLCommitLink>;
+  private commitLinks: NodeListOf<HTMLLinkElement>;
 
   private sort: Sort = 'DESC';
 
@@ -45,7 +44,7 @@ export class HTMLCommitsManager implements CommitsManager {
     return block.querySelector('.TimelineItem-body > ol') as HTMLOListElement;
   }
 
-  private findCommitLinks(block: HTMLElement): NodeListOf<HTMLCommitLink> {
+  private findCommitLinks(block: HTMLElement): NodeListOf<HTMLLinkElement> {
     return block.querySelectorAll('li > div > p > a');
   }
 
@@ -128,13 +127,16 @@ export class HTMLCommitsManager implements CommitsManager {
   }
 
   private updateCommitMessages(): void {
-    function updateMessage(commitLink: HTMLCommitLink): void {
-      const fullMessage = commitLink.ariaLabel;
+    this.commitsList.querySelectorAll('li').forEach(list => {
+      const commitLink = list.querySelector('div > p > a');
+      const hiddenMessage = list.querySelector('.Details-content--hidden pre');
 
-      commitLink.innerText = fullMessage;
-    }
+      if (commitLink !== null && hiddenMessage !== null) {
+        const updatedMessage = `${commitLink.textContent?.slice(0, -1)}${hiddenMessage.textContent?.slice(1)}`;
 
-    this.commitLinks.forEach(updateMessage);
+        commitLink.textContent = updatedMessage;
+      }
+    });
   }
 
   private init(): void {
